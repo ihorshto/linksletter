@@ -33,15 +33,17 @@ jobs:
           php artisan cache:clear
           php artisan config:cache
 
-      - name: Setup Sqlite
+      - name: Setup SQLite Database
         run: |
           mkdir -p database
           touch database/database.sqlite
 
-      - name: Set SQLite Database in .env
+      - name: Force Set SQLite Database Path
         run: |
-          echo "DB_CONNECTION=sqlite" >> .env
           echo "DB_DATABASE=$(pwd)/database/database.sqlite" >> .env
+
+      - name: Debug .env
+        run: cat .env | grep DB_DATABASE
 
       - name: Run Migrations
         run: php artisan migrate --force
