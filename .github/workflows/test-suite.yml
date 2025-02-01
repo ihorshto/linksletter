@@ -1,6 +1,6 @@
 name: Run tests
 
-on: [push, pull_request]
+on: [ push, pull_request ]
 
 jobs:
   tests:
@@ -19,25 +19,26 @@ jobs:
       - name: Run composer install
         run: composer install -n --prefer-dist
 
-      - name: Run NPM install
+      - name: Run NPM install # [tl! add:start]
         run: npm install
 
       - name: Compile Assets for UI Testing
-        run: npm run build
+        run: npm run build # [tl! add:end]
 
       - name: Prepare Laravel Application
         run: |
           cp .env.ci .env
           php artisan key:generate
+          php artisan config:clear
+          php artisan cache:clear
+          php artisan config:cache
 
-      - name: Setup Sqlite
-        run: touch database/database.sqlite
+      - name: Setup Sqlite # [tl! add:start]
+        run: touch database/database.sqlite # [tl! add:end]
 
-      - name: Verify SQLite Database
-        run: ls -l database/ && cat .env
-
-      - name: Set permissions for storage and bootstrap/cache
-        run: chmod -R 777 storage bootstrap/cache
+      - name: Debug APP_KEY
+        run: |
+          echo "APP_KEY=$(grep APP_KEY .env)"
 
       - name: Run tests
-        run: php artisan test --debug
+        run: php artisan test
