@@ -1,6 +1,6 @@
 name: Run tests
 
-on: [ push, pull_request ]
+on: [push, pull_request]
 
 jobs:
   tests:
@@ -16,14 +16,14 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
           coverage: none
 
-      - name: Run composer install
+      - name: Install Dependencies
         run: composer install -n --prefer-dist
 
-      - name: Run NPM install # [tl! add:start]
+      - name: Install NPM Packages
         run: npm install
 
-      - name: Compile Assets for UI Testing
-        run: npm run build # [tl! add:end]
+      - name: Build Assets
+        run: npm run build
 
       - name: Prepare Laravel Application
         run: |
@@ -33,12 +33,18 @@ jobs:
           php artisan cache:clear
           php artisan config:cache
 
-      - name: Setup Sqlite # [tl! add:start]
-        run: touch database/database.sqlite # [tl! add:end]
-
-      - name: Debug APP_KEY
+      - name: Setup Sqlite
         run: |
-          echo "APP_KEY=$(grep APP_KEY .env)"
+          mkdir -p database
+          touch database/database.sqlite
 
-      - name: Run tests
+      - name: Set SQLite Database in .env
+        run: |
+          echo "DB_CONNECTION=sqlite" >> .env
+          echo "DB_DATABASE=$(pwd)/database/database.sqlite" >> .env
+
+      - name: Run Migrations
+        run: php artisan migrate --force
+
+      - name: Run Tests
         run: php artisan test
