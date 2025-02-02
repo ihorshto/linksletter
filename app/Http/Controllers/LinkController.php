@@ -6,7 +6,6 @@ use App\Http\Requests\StoreLinkRequest;
 use App\Http\Requests\UpdateLinkRequest;
 use App\Models\Link;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class LinkController extends Controller
 {
@@ -19,7 +18,7 @@ class LinkController extends Controller
             ->paginate(50);
 
         return view('links.index', [
-            'links' => $links
+            'links' => $links,
         ]);
     }
 
@@ -28,7 +27,7 @@ class LinkController extends Controller
         $users = User::all();
 
         return view('links.create', [
-            'users' => $users
+            'users' => $users,
         ]);
     }
 
@@ -41,7 +40,7 @@ class LinkController extends Controller
         );
 
         // If there is no position, set it to the last
-        if (!$link->position) {
+        if (! $link->position) {
             $link->position = Link::max('position') + 1;
             $link->save();
         }
