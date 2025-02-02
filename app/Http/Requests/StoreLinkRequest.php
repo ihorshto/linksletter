@@ -25,7 +25,7 @@ class StoreLinkRequest extends FormRequest
             'title' => 'required|string',
             'url' => 'required|url|string',
             'description' => 'nullable|string',
-            'position' => 'nullable|integer'
+            'position' => 'nullable|integer',
         ];
     }
 }
