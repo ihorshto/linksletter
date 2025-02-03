@@ -27,7 +27,7 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        /** @var User $user  */
+        /** @var User $user */
         $user = $request->user();
 
         $user->fill($request->validated());
@@ -36,7 +36,7 @@ class ProfileController extends Controller
             $user->email_verified_at = null;
         }
 
-       $user->save();
+        $user->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }

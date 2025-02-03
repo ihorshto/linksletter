@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 class VerifyEmailController extends Controller
 {
@@ -15,19 +14,12 @@ class VerifyEmailController extends Controller
      */
     public function __invoke(EmailVerificationRequest $request): RedirectResponse
     {
-        $user = $request->user();
-
-        // Ensure $user is an instance of MustVerifyEmail
-        if (!$user instanceof MustVerifyEmail) {
-            abort(403, 'User must verify email.');
-        }
-
-        if ($user->hasVerifiedEmail()) {
+        if ($request->user()->hasVerifiedEmail()) {
             return redirect()->intended(route('dashboard', absolute: false).'?verified=1');
         }
 
-        if ($user->markEmailAsVerified()) {
-            event(new Verified($user));
+        if ($request->user()->markEmailAsVerified()) {
+            event(new Verified($request->user()));
         }
 
         return redirect()->intended(route('dashboard', absolute: false).'?verified=1');

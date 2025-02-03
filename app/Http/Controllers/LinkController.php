@@ -7,7 +7,6 @@ use App\Http\Requests\UpdateLinkRequest;
 use App\Models\Link;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\View;
 
 class LinkController extends Controller
 {
