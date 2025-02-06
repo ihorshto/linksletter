@@ -54,7 +54,9 @@
                                 @foreach ($links as $link)
                                     <tr>
                                         <td class="border px-4 py-2">{{ $link->title }}</td>
-                                        <td class="border px-4 py-2">{{ $link->url }}</td>
+                                        <td class="border px-4 py-2">
+                                            <a href="{{$link->url}}" class="text-blue-500 hover:underline">{{ $link->url }}</a>
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
