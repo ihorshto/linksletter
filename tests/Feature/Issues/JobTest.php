@@ -5,8 +5,8 @@ use App\Models\Issue;
 use App\Models\Link;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
 use Illuminate\Support\Facades\Queue;
+
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\post;
 use function PHPUnit\Framework\assertStringContainsString;
