@@ -26,6 +26,8 @@ class GenerateIssueHtmlJob implements ShouldQueue
             'issue' => $this->issue,
         ]);
 
+        info($html);
+
         $this->issue->links_html = $html->render();
         $this->issue->save();
     }

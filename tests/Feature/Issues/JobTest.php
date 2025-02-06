@@ -6,6 +6,7 @@ use App\Models\Link;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+use Illuminate\Support\Facades\Queue;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\post;
 use function PHPUnit\Framework\assertStringContainsString;
@@ -13,12 +14,17 @@ use function PHPUnit\Framework\assertStringContainsString;
 uses(RefreshDatabase::class);
 
 test('job generates correct html', function () {
+    $user = User::factory()->create();
     $issue = Issue::factory()
         ->has(Link::factory()->count(2))
         ->create([
+            'user_id' => $user->id,
+            'subject' => fake()->name(),
             'header_text' => 'Header text',
             'footer_text' => 'Footer text',
         ]);
+
+    actingAs($user);
 
     (new GenerateIssueHtmlJob($issue->id))->handle();
 
