@@ -23,9 +23,9 @@ class StoreIssueRequest extends FormRequest
     {
         return [
             'subject' => 'required|string',
-            'header_text' => 'nullable|text',
-            'footer_text' => 'nullable|text',
-            'links_html' => 'nullable|text',
+            'header_text' => 'nullable',
+            'footer_text' => 'nullable',
+            'links_html' => 'nullable',
         ];
     }
 }

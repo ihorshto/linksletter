@@ -51,7 +51,10 @@ test('can create issues', function () {
 
 test('can list issues', function () {
     $user = User::factory()->create();
-    $issues = Issue::factory()->count(3)->create(['user_id' => $user->id]);
+    $issues = Issue::factory()->count(3)->create([
+        'user_id' => $user->id,
+        'subject' => fake()->name(),
+    ]);
 
     actingAs($user);
 
@@ -64,7 +67,10 @@ test('can list issues', function () {
 
 test('can see pagination on list', function () {
     $user = User::factory()->create();
-    $issues = Issue::factory()->count(100)->create(['user_id' => $user->id]);
+    $issues = Issue::factory()->count(100)->create([
+        'user_id' => $user->id,
+        'subject' => fake()->name(),
+    ]);
 
     actingAs($user);
 
